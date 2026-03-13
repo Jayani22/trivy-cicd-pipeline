@@ -51,15 +51,17 @@ jobs:
                   sudo systemctl enable docker
                   sudo usermod -aG docker $USER
                 fi
-                
-                # Install Docker compose plugin if missing
+
+                # Install Docker compose if missing
                 if ! docker compose version &> /dev/null
                 then
-                  sudo apt install docker-compose-plugin -y
+                  sudo apt update
+                  sudo apt install docker-compose -y
                 fi
 
                 mkdir -p trivy-app
                 cd trivy-app
+                
                 cat > docker-compose.yml <<EOF
                 version: "3"
                 services:
