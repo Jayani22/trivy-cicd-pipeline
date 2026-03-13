@@ -61,7 +61,7 @@ jobs:
 
                 mkdir -p trivy-app
                 cd trivy-app
-                
+
                 cat > docker-compose.yml <<EOF
                 version: "3"
                 services:
@@ -73,5 +73,5 @@ jobs:
                     restart: unless-stopped
                 EOF
 
-                docker compose pull
-                docker compose up -d
+                docker-compose pull
+                docker-compose up -d
