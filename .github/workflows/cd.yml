@@ -42,7 +42,18 @@ jobs:
             key: ${{ secrets.EC2_SSH_KEY }}
             envs: IMAGE_TAG
             script: |
-                docker pull ${{ secrets.DOCKER_USERNAME }}/devops-trivy-app:$IMAGE_TAG
-                docker stop devops-container || true
-                docker rm devops-container || true
-                docker run -d -p 80:80 --name devops-container ${{ secrets.DOCKER_USERNAME }}/devops-trivy-app:$IMAGE_TAG
+                mkdir -p trivy-app
+                cd trivy-app
+                cat > docker-compose.yml <<EOF
+                version: "3"
+                services:
+                  web:
+                    image: ${{ secrets.DOCKER_USERNAME }}/devops-trivy-app:${IMAGE_TAG}
+                    container_name: devops-container
+                    ports:
+                      - "80:80"
+                    restart: unless-stopped
+                EOF
+
+                docker compose pull
+                docker compose up -d
