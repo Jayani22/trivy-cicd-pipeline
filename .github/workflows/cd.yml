@@ -73,5 +73,6 @@ jobs:
                     restart: unless-stopped
                 EOF
 
+                docker rm -f devops-container || true
                 docker-compose pull
                 docker-compose up -d
