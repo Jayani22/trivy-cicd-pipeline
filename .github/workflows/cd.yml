@@ -49,7 +49,6 @@ jobs:
                   sudo apt install docker.io -y
                   sudo systemctl start docker
                   sudo systemctl enable docker
-                  sudo usermod -aG docker $USER
                 fi
 
                 # Install Docker compose if missing
@@ -73,6 +72,6 @@ jobs:
                     restart: unless-stopped
                 EOF
 
-                docker rm -f devops-container || true
-                docker-compose pull
-                docker-compose up -d
+                sudo docker rm -f devops-container || true
+                sudo docker-compose pull
+                sudo docker-compose up -d
